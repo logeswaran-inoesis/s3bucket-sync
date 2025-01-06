@@ -1,6 +1,6 @@
 # Define paths and log file
-$batchFilePath = "D:\sync_windows_backup.bat"  # Specify the full path to your batch file
-$logFilePath = "D:\sync_task_logr.txt"
+$batchFilePath = "E:\sync_windows_backup.bat"  # Specify the full path to your batch file
+$logFilePath = "E:\sync_task_logr.txt"
 
 # Define the name and folder for the scheduled task
 $taskName = "S3 Bucket Sync Task"
