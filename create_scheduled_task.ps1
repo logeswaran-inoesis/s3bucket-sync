@@ -1,5 +1,5 @@
 # Define paths and log file
-$batchFilePath = "D:\"
+$batchFilePath = "D:\sync_windows_backup.bat"  # Specify the full path to your batch file
 $logFilePath = "D:\sync_task_logr.txt"
 
 # Define the name and folder for the scheduled task
