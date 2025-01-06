@@ -1,3 +1,4 @@
+
 @echo off
 setlocal
 
@@ -7,35 +8,25 @@ set S3_BUCKET=s3://window-serverbackup/versi
 set REGION=us-east-1
 set LOG_FILE=C:\Users\loges\Desktop\docker\quickans\docker_sync_log.txt
 
-:: Check if LOCAL_DIR exists
-if not exist "%LOCAL_DIR%" (
-    echo LOCAL_DIR does not exist: %LOCAL_DIR%
-    exit /b 1
-)
-
-:: Check if the LOG_FILE path exists
+:: Ensure the log file exists
 if not exist "%LOG_FILE%" (
-    echo LOG_FILE path does not exist: %LOG_FILE%
+    echo [%date% %time%] Creating log file at %LOG_FILE%.
+    echo. > "%LOG_FILE%"
 )
 
-:: Log the paths
-echo LOCAL_DIR: %LOCAL_DIR%
-echo S3_BUCKET: %S3_BUCKET%
-echo LOG_FILE: %LOG_FILE%
+:: Log start of the sync operation
+echo [%date% %time%] Starting sync operation. >> "%LOG_FILE%"
 
-:: Sync local directory to S3 bucket
-echo Starting sync operation at %date% %time% >> "%LOG_FILE%"
+:: Run the sync command with detailed output
 aws s3 sync "%LOCAL_DIR%" "%S3_BUCKET%" --region %REGION% >> "%LOG_FILE%" 2>&1
 
 :: Check for errors
 if %ERRORLEVEL% NEQ 0 (
-    echo Error occurred during sync operation. Check the log for details. >> "%LOG_FILE%"
-    :: Do not delete the log file if there was an error
-    echo Log file retained due to error.
+    echo [%date% %time%] Error occurred during sync operation. >> "%LOG_FILE%"
+    echo [%date% %time%] Check the above log for detailed error messages. >> "%LOG_FILE%"
+    exit /b 1
 ) else (
-    echo Sync operation completed successfully at %date% %time%. >> "%LOG_FILE%"
-    :: Delete the log file if the sync operation was successful
-    del "%LOG_FILE%"
+    echo [%date% %time%] Sync operation completed successfully. >> "%LOG_FILE%"
+    echo [%date% %time%] Synced files: >> "%LOG_FILE%"
+    aws s3 ls "%S3_BUCKET%" --region %REGION% >> "%LOG_FILE%" 2>&1
 )
-
-endlocal
