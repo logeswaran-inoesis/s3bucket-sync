@@ -4,7 +4,7 @@ setlocal
 
 :: Set variables
 set LOCAL_DIR=C:\Users\loges\Desktop\docker\quickans
-set S3_BUCKET=s3://window-serverbackup/versi
+set S3_BUCKET=s3://window-serverbackup/backup_v1
 set REGION=us-east-1
 set LOG_FILE=C:\Users\loges\Desktop\docker\quickans\docker_sync_log.txt
 
